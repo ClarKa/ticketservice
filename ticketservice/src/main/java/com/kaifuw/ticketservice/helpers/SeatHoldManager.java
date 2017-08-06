@@ -23,7 +23,7 @@ public class SeatHoldManager {
     private static Logger logger = Logger.getLogger(SeatHoldManager.class);
 
     private static final Queue<SeatHold> seatHoldQueue = new PriorityQueue<>(new SeatHoldComparator());
-    private static boolean running = false;
+    private static boolean running;
 
     public void addToTracker(SeatHold s) {
         seatHoldQueue.add(s);
@@ -38,6 +38,7 @@ public class SeatHoldManager {
 
     public void kickOffTracker() {
         running = true;
+        logger.info(String.format(Message.TIMER_START));
 
         final Timer timer = new Timer();
         TimerTask task = new TimerTask() {

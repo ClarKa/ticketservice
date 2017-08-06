@@ -9,7 +9,8 @@ public class Message {
 
     // Hold Tracker
     public static final String HOLD_EXPIRED = "Customer Email: %s. Seats hold id: %d expired.";
-    public static final String TIMER_CANCEL = "No seats hold, timer stopped.";
+    public static final String TIMER_CANCEL = "Timer stopped. No seats held.";
+    public static final String TIMER_START = "Timer Started. ";
 
     // Reserve
     public static final String INVALID_SEATHOLD_ID = "CustomerEmail: %s. SeatHold ID to reserve seats is invalid: %d";
