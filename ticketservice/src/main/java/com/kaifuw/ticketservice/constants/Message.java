@@ -13,7 +13,7 @@ public class Message {
     public static final String TIMER_START = "Timer Started. ";
 
     // Reserve
-    public static final String INVALID_SEATHOLD_ID = "CustomerEmail: %s. SeatHold ID to reserve seats is invalid: %d";
+    public static final String INVALID_SEATHOLD_ID = "Customer Email: %s. SeatHold ID to reserve seats is invalid: %d";
     public static final String RESERVE_EMPTY_EMAIL = "Email address to reserve seats is empty.";
     public static final String RESERVE_SEAT_SUCCESS = "Customer Email: %s. Seat hold id: %d reserved.";
     public static final String SEATHOLD_NOT_FOUND = "Customer Email: %s. Seat hold id: %d not found.";

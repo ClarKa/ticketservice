@@ -73,13 +73,14 @@ public class SeatHoldManagerTest {
         expectLastCall().once();
         replay(Venue.class);
 
-        SeatHold seatHold = mgr.holdSeats(4, TestData.EMAIL_1);
+        SeatHold sh = new SeatHold(TestData.EMAIL_3);
+        mgr.holdSeats(4, TestData.EMAIL_3, sh);
 
         verify(Venue.class);
 
         String[] seatNums = new String[] {"0-2","0-3", "1-0", "1-1"};
-        for (int i = 0; i < seatHold.getSeatsList().size(); i++) {
-            Assert.assertEquals(seatNums[i], seatHold.getSeatsList().get(i));
+        for (int i = 0; i < sh.getSeatsList().size(); i++) {
+            Assert.assertEquals(seatNums[i], sh.getSeatsList().get(i));
         }
     }
 

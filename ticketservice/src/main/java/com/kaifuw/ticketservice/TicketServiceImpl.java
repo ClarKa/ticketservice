@@ -23,8 +23,9 @@ public class TicketServiceImpl implements TicketService{
         if (invalidHoldRequest(numSeats, customerEmail, seatHold)) {
             return seatHold;
         }
-
-        return mgr.holdSeats(numSeats, customerEmail);
+        seatHold = mgr.holdSeats(numSeats, customerEmail, seatHold);
+        mgr.kickOffTracker();
+        return seatHold;
     }
 
     @Override

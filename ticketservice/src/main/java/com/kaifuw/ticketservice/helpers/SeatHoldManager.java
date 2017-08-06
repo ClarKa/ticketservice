@@ -17,7 +17,7 @@ import com.kaifuw.ticketservice.dto.Venue;
 import com.kaifuw.ticketservice.enums.SeatState;
 
 public class SeatHoldManager {
-    // 30 seconds expiring time.
+    // 20 seconds expiring time.
     private static final long TIME_LIMIT = 20 * 1000;
     private static final long INTERVAL = 2 * 1000;
     private static Logger logger = Logger.getLogger(SeatHoldManager.class);
@@ -27,9 +27,6 @@ public class SeatHoldManager {
 
     public void addToTracker(SeatHold s) {
         seatHoldQueue.add(s);
-        if (!running) {
-            kickOffTracker();
-        }
     }
 
     public boolean isRunning() {
@@ -37,6 +34,10 @@ public class SeatHoldManager {
     }
 
     public void kickOffTracker() {
+        if (running) {
+            return;
+        }
+
         running = true;
         logger.info(String.format(Message.TIMER_START));
 
@@ -71,8 +72,7 @@ public class SeatHoldManager {
         Venue.updateNumAvailable(seatList.size());
     }
 
-    public SeatHold holdSeats(int numSeats, String customerEmail) {
-        SeatHold seatHold = new SeatHold(customerEmail);
+    public SeatHold holdSeats(int numSeats, String customerEmail, SeatHold seatHold) {
         int numLeft = numSeats;
         int row = 0;
         Seat[][] seats = Venue.getSeats();
@@ -92,10 +92,9 @@ public class SeatHoldManager {
 
         String msg = String.format(Message.HOLD_SEATS_SUCCESS, customerEmail, numSeats, seatHold.getId());
         seatHold.setMsg(msg);
+        seatHoldQueue.add(seatHold);
 
-        addToTracker(seatHold);
         Venue.updateNumAvailable(-numSeats);
-
         logger.info(msg);
 
         return seatHold;

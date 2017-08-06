@@ -12,19 +12,47 @@ public class TicketServiceTest {
     private TicketServiceImpl service = new TicketServiceImpl();
 
     @Test
-    public void testReleaseExpiredSeats() throws InterruptedException {
-        SeatHold seatHold = service.findAndHoldSeats(4, TestData.EMAIL_2);
-        for (int i = 0; i < seatHold.getSeatsList().size(); i++) {
+    public void testServices() throws InterruptedException {
+        // hold sh1 of 4 seats;
+        SeatHold sh1 = service.findAndHoldSeats(4, TestData.EMAIL_1);
+        for (int i = 0; i < sh1.getSeatsList().size(); i++) {
+            Assert.assertEquals(SeatState.H, Venue.getOneSeat(0, i).getState());
+            Assert.assertEquals(TestData.EMAIL_1, Venue.getOneSeat(0, i).getUserEmail());
+        }
+        Assert.assertEquals(TestData.MAX_SEATS - 4, Venue.getNumAvailable());
+
+        Thread.sleep(5 * 1000);
+
+        // hold sh2 of 2 seats;
+        SeatHold sh2 = service.findAndHoldSeats(2, TestData.EMAIL_2);
+        for (int i = 4; i < 4 + sh2.getSeatsList().size(); i++) {
             Assert.assertEquals(SeatState.H, Venue.getOneSeat(0, i).getState());
             Assert.assertEquals(TestData.EMAIL_2, Venue.getOneSeat(0, i).getUserEmail());
-            Assert.assertEquals(TestData.MAX_SEATS - 4, Venue.getNumAvailable());
         }
+        Assert.assertEquals(TestData.MAX_SEATS - 6, Venue.getNumAvailable());
+
+        // reserve sh1.
+        service.reserveSeats(sh1.getId(), TestData.EMAIL_1);
+        for (int i = 0; i < sh1.getSeatsList().size(); i++) {
+            Assert.assertEquals(SeatState.R, Venue.getOneSeat(0, i).getState());
+            Assert.assertEquals(TestData.EMAIL_1, Venue.getOneSeat(0, i).getUserEmail());
+        }
+        Assert.assertEquals(TestData.MAX_SEATS - 6, Venue.getNumAvailable());
+
         Thread.sleep(25 * 1000);
-        for (int i = 0; i < seatHold.getSeatsList().size(); i++) {
+
+        // sh1 reserved.
+        for (int i = 0; i < sh1.getSeatsList().size(); i++) {
+            Assert.assertEquals(SeatState.R, Venue.getOneSeat(0, i).getState());
+            Assert.assertEquals(TestData.EMAIL_1, Venue.getOneSeat(0, i).getUserEmail());
+        }
+
+        // sh2 expired.
+        for (int i = 4; i < 4 + sh2.getSeatsList().size(); i++) {
             Assert.assertEquals(SeatState.A, Venue.getOneSeat(0, i).getState());
             Assert.assertEquals(null, Venue.getOneSeat(0, i).getUserEmail());
-            Assert.assertEquals(TestData.MAX_SEATS, Venue.getNumAvailable());
         }
+        Assert.assertEquals(TestData.MAX_SEATS - 4, Venue.getNumAvailable());
     }
 
     @Test
