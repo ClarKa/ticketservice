@@ -22,8 +22,8 @@ public class SeatHoldManager {
     private static final long INTERVAL = 2 * 1000;
     private static Logger logger = Logger.getLogger(SeatHoldManager.class);
 
-    private final Queue<SeatHold> seatHoldQueue = new PriorityQueue<>(new SeatHoldComparator());
-    private boolean running = false;
+    private static final Queue<SeatHold> seatHoldQueue = new PriorityQueue<>(new SeatHoldComparator());
+    private static boolean running = false;
 
     public void addToTracker(SeatHold s) {
         seatHoldQueue.add(s);
@@ -51,7 +51,7 @@ public class SeatHoldManager {
                     long currTime = System.currentTimeMillis();
                     if (currTime - seatHoldQueue.peek().getTimeHeld() > TIME_LIMIT) {
                         SeatHold sh = seatHoldQueue.poll();
-                        logger.info(String.format(Message.HOLD_EXPIRED, sh.getEmail()));
+                        logger.info(String.format(Message.HOLD_EXPIRED, sh.getEmail(), sh.getId()));
                         releaseSeatsHeld(sh);
                     }
                 }

@@ -43,7 +43,6 @@ public class SeatHoldManagerTest {
             s.hold();
             mockSeatHold.addSeat(s.getNumber());
         }
-
     }
 
     @Test
