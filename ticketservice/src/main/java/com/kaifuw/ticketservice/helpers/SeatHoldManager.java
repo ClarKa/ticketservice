@@ -72,7 +72,7 @@ public class SeatHoldManager {
         Venue.updateNumAvailable(seatList.size());
     }
 
-    public SeatHold holdSeats(int numSeats, String customerEmail, SeatHold seatHold) {
+    public void holdSeats(int numSeats, String customerEmail, SeatHold seatHold) {
         int numLeft = numSeats;
         int row = 0;
         Seat[][] seats = Venue.getSeats();
@@ -96,8 +96,6 @@ public class SeatHoldManager {
 
         Venue.updateNumAvailable(-numSeats);
         logger.info(msg);
-
-        return seatHold;
     }
 
     public String reserveSeats(int seatHoldId, String customerEmail) {
