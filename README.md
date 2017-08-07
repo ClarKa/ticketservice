@@ -21,4 +21,5 @@ Walmart homework ticketservice
 3. mvn clean install
 
 # Test
-mvn test
+1. under ticketservice/ticketservice/ 
+2. mvn test
