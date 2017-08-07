@@ -1,4 +1,4 @@
-package com.kaifuw.ticketservice;
+package com.kaifuw.ticketservice.service;
 
 import com.kaifuw.ticketservice.dto.SeatHold;
 

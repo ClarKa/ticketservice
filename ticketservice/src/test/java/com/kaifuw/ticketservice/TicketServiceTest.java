@@ -7,6 +7,7 @@ import com.kaifuw.ticketservice.constants.Message;
 import com.kaifuw.ticketservice.dto.SeatHold;
 import com.kaifuw.ticketservice.dto.Venue;
 import com.kaifuw.ticketservice.enums.SeatState;
+import com.kaifuw.ticketservice.service.TicketServiceImpl;
 
 public class TicketServiceTest {
     private TicketServiceImpl service = new TicketServiceImpl();
